@@ -66,7 +66,7 @@
           },
           "SecurityGroupIds": [
             {
-              "Fn::ImportValue": "eksctl-privacera-cluster-ajmal-cluster::ClusterSecurityGroupId"
+              "Fn::ImportValue": "eksctl-privacera-cluster-ajmalam-cluster::ClusterSecurityGroupId"
             }
           ],
           "TagSpecifications": [
@@ -75,11 +75,11 @@
               "Tags": [
                 {
                   "Key": "Name",
-                  "Value": "privacera-cluster-ajmal-privacera-nodes-Node"
+                  "Value": "privacera-cluster-ajmalam-privacera-nodes-ajmal-Node"
                 },
                 {
                   "Key": "alpha.eksctl.io/nodegroup-name",
-                  "Value": "privacera-nodes"
+                  "Value": "privacera-nodes-ajmal"
                 },
                 {
                   "Key": "alpha.eksctl.io/nodegroup-type",
@@ -92,11 +92,11 @@
               "Tags": [
                 {
                   "Key": "Name",
-                  "Value": "privacera-cluster-ajmal-privacera-nodes-Node"
+                  "Value": "privacera-cluster-ajmalam-privacera-nodes-ajmal-Node"
                 },
                 {
                   "Key": "alpha.eksctl.io/nodegroup-name",
-                  "Value": "privacera-nodes"
+                  "Value": "privacera-nodes-ajmal"
                 },
                 {
                   "Key": "alpha.eksctl.io/nodegroup-type",
@@ -109,11 +109,11 @@
               "Tags": [
                 {
                   "Key": "Name",
-                  "Value": "privacera-cluster-ajmal-privacera-nodes-Node"
+                  "Value": "privacera-cluster-ajmalam-privacera-nodes-ajmal-Node"
                 },
                 {
                   "Key": "alpha.eksctl.io/nodegroup-name",
-                  "Value": "privacera-nodes"
+                  "Value": "privacera-nodes-ajmal"
                 },
                 {
                   "Key": "alpha.eksctl.io/nodegroup-type",
@@ -132,13 +132,13 @@
       "Type": "AWS::EKS::Nodegroup",
       "Properties": {
         "AmiType": "AL2023_x86_64_STANDARD",
-        "ClusterName": "privacera-cluster-ajmal",
+        "ClusterName": "privacera-cluster-ajmalam",
         "InstanceTypes": [
-          "r5.2xlarge"
+          "t3.xlarge"
         ],
         "Labels": {
-          "alpha.eksctl.io/cluster-name": "privacera-cluster-ajmal",
-          "alpha.eksctl.io/nodegroup-name": "privacera-nodes"
+          "alpha.eksctl.io/cluster-name": "privacera-cluster-ajmalam",
+          "alpha.eksctl.io/nodegroup-name": "privacera-nodes-ajmal"
         },
         "LaunchTemplate": {
           "Id": {
@@ -151,18 +151,18 @@
             "Arn"
           ]
         },
-        "NodegroupName": "privacera-nodes",
+        "NodegroupName": "privacera-nodes-ajmal",
         "ScalingConfig": {
           "DesiredSize": 1,
           "MaxSize": 3,
           "MinSize": 0
         },
         "Subnets": [
-          "subnet-080be0d89b0f7bd4e",
-          "subnet-05ee79cf3fbedf178"
+          "subnet-0977f99a25eb1be3f",
+          "subnet-0c1a8a552866aeadb"
         ],
         "Tags": {
-          "alpha.eksctl.io/nodegroup-name": "privacera-nodes",
+          "alpha.eksctl.io/nodegroup-name": "privacera-nodes-ajmal",
           "alpha.eksctl.io/nodegroup-type": "managed"
         }
       }

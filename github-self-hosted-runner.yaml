@@ -1,16 +1,18 @@
+# github-self-hosted-runner.yaml
+
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
-  name: nisha-privacera-manager-deploy
-  namespace: actions-runner-system
+  name: ajmal-privacera-manager-deploy
+  namespace: github-actions-runner
 spec:
   replicas: 1
   template:
     spec:
-      repository: Nishadhana-B/privacera-manager  # Replace with your own repository (e.g., yourusername/privacera-manager)
+      repository: ajmalmajeed/privacera-manager  # Your GitHub repository
       labels:
         - self-hosted
-        - k8s  
+        - k8s
         - linux
       resources:
         limits:
@@ -25,5 +27,5 @@ spec:
         - name: GITHUB_TOKEN
           valueFrom:
             secretKeyRef:
-              name: nisha-github-token
-              key: token
+              name: github-token  
+              key: github_token
