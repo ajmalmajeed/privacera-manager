@@ -1,0 +1,226 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "EKS Managed Nodes (SSH access: false) [created by eksctl]",
+  "Mappings": {
+    "ServicePrincipalPartitionMap": {
+      "aws": {
+        "EC2": "ec2.amazonaws.com",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com",
+        "IRA": "rolesanywhere.amazonaws.com",
+        "SSM": "ssm.amazonaws.com"
+      },
+      "aws-cn": {
+        "EC2": "ec2.amazonaws.com.cn",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com"
+      },
+      "aws-iso": {
+        "EC2": "ec2.c2s.ic.gov",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com"
+      },
+      "aws-iso-b": {
+        "EC2": "ec2.sc2s.sgov.gov",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com"
+      },
+      "aws-iso-e": {
+        "EC2": "ec2.amazonaws.com",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com"
+      },
+      "aws-iso-f": {
+        "EC2": "ec2.amazonaws.com",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com"
+      },
+      "aws-us-gov": {
+        "EC2": "ec2.amazonaws.com",
+        "EKS": "eks.amazonaws.com",
+        "EKSFargatePods": "eks-fargate-pods.amazonaws.com",
+        "IRA": "rolesanywhere.amazonaws.com",
+        "SSM": "ssm.amazonaws.com"
+      }
+    }
+  },
+  "Resources": {
+    "LaunchTemplate": {
+      "Type": "AWS::EC2::LaunchTemplate",
+      "Properties": {
+        "LaunchTemplateData": {
+          "BlockDeviceMappings": [
+            {
+              "DeviceName": "/dev/xvda",
+              "Ebs": {
+                "Iops": 3000,
+                "Throughput": 125,
+                "VolumeSize": 100,
+                "VolumeType": "gp3"
+              }
+            }
+          ],
+          "MetadataOptions": {
+            "HttpPutResponseHopLimit": 2,
+            "HttpTokens": "required"
+          },
+          "SecurityGroupIds": [
+            {
+              "Fn::ImportValue": "eksctl-privacera-cluster-ajmalam-cluster::ClusterSecurityGroupId"
+            }
+          ],
+          "TagSpecifications": [
+            {
+              "ResourceType": "instance",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "privacera-cluster-ajmalam-privacera-nodes-ajmal-Node"
+                },
+                {
+                  "Key": "alpha.eksctl.io/nodegroup-name",
+                  "Value": "privacera-nodes-ajmal"
+                },
+                {
+                  "Key": "alpha.eksctl.io/nodegroup-type",
+                  "Value": "managed"
+                }
+              ]
+            },
+            {
+              "ResourceType": "volume",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "privacera-cluster-ajmalam-privacera-nodes-ajmal-Node"
+                },
+                {
+                  "Key": "alpha.eksctl.io/nodegroup-name",
+                  "Value": "privacera-nodes-ajmal"
+                },
+                {
+                  "Key": "alpha.eksctl.io/nodegroup-type",
+                  "Value": "managed"
+                }
+              ]
+            },
+            {
+              "ResourceType": "network-interface",
+              "Tags": [
+                {
+                  "Key": "Name",
+                  "Value": "privacera-cluster-ajmalam-privacera-nodes-ajmal-Node"
+                },
+                {
+                  "Key": "alpha.eksctl.io/nodegroup-name",
+                  "Value": "privacera-nodes-ajmal"
+                },
+                {
+                  "Key": "alpha.eksctl.io/nodegroup-type",
+                  "Value": "managed"
+                }
+              ]
+            }
+          ]
+        },
+        "LaunchTemplateName": {
+          "Fn::Sub": "${AWS::StackName}"
+        }
+      }
+    },
+    "ManagedNodeGroup": {
+      "Type": "AWS::EKS::Nodegroup",
+      "Properties": {
+        "AmiType": "AL2023_x86_64_STANDARD",
+        "ClusterName": "privacera-cluster-ajmalam",
+        "InstanceTypes": [
+          "t3.xlarge"
+        ],
+        "Labels": {
+          "alpha.eksctl.io/cluster-name": "privacera-cluster-ajmalam",
+          "alpha.eksctl.io/nodegroup-name": "privacera-nodes-ajmal"
+        },
+        "LaunchTemplate": {
+          "Id": {
+            "Ref": "LaunchTemplate"
+          }
+        },
+        "NodeRole": {
+          "Fn::GetAtt": [
+            "NodeInstanceRole",
+            "Arn"
+          ]
+        },
+        "NodegroupName": "privacera-nodes-ajmal",
+        "ScalingConfig": {
+          "DesiredSize": 1,
+          "MaxSize": 3,
+          "MinSize": 0
+        },
+        "Subnets": [
+          "subnet-0977f99a25eb1be3f",
+          "subnet-0c1a8a552866aeadb"
+        ],
+        "Tags": {
+          "alpha.eksctl.io/nodegroup-name": "privacera-nodes-ajmal",
+          "alpha.eksctl.io/nodegroup-type": "managed"
+        }
+      }
+    },
+    "NodeInstanceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  {
+                    "Fn::FindInMap": [
+                      "ServicePrincipalPartitionMap",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      "EC2"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly"
+          },
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+          },
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AmazonEKS_CNI_Policy"
+          },
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
+          },
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+          }
+        ],
+        "Path": "/",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Sub": "${AWS::StackName}/NodeInstanceRole"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
