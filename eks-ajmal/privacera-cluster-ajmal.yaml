@@ -1,0 +1,24 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: privacera-cluster-ajmalam
+  region: us-east-1        
+  version: "1.32"
+
+vpc:
+  autoAllocateIPv6: false
+  nat:
+    gateway: Single        # Internet access via NAT Gateway
+
+managedNodeGroups:
+  - name: privacera-nodes-ajmal
+    instanceType: t3.xlarge
+    minSize: 0
+    maxSize: 3
+    desiredCapacity: 1
+    volumeSize: 100       # 100GB EBS volumes per node
+    iam:
+      withAddonPolicies:
+        ebs: true 
+        albIngress: false 
