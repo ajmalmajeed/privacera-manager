@@ -1,0 +1,19 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    meta.helm.sh/release-name: mariadb
+    meta.helm.sh/release-namespace: candidate-test
+  creationTimestamp: "2025-09-12T23:33:22Z"
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: candidate-test-store-privacera-mariadb
+  resourceVersion: "221348"
+  uid: 918cfb9c-11f6-47c4-9d22-37a231e17323
+parameters:
+  fsType: ext4
+  type: gp2
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

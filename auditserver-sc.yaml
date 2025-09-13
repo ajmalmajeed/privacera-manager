@@ -1,0 +1,19 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    meta.helm.sh/release-name: auditserver
+    meta.helm.sh/release-namespace: candidate-test
+  creationTimestamp: "2025-09-12T23:33:46Z"
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: candidate-test-store-privacera-auditserver
+  resourceVersion: "221695"
+  uid: d32f8c6b-9d56-4c25-ba4a-ad4a1b7e881c
+parameters:
+  fsType: ext4
+  type: gp2
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Delete
+volumeBindingMode: Immediate

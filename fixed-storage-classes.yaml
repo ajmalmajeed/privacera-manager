@@ -1,0 +1,76 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-connector-snowflake-test
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-diagnostics-server
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-privacera-auditserver
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-privacera-grafana
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-privacera-mariadb
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-privacera-solr
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: candidate-test-store-privacera-zookeeper
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp2
