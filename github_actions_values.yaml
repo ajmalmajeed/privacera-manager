@@ -6,4 +6,4 @@ GITHUB_ACTIONS_NAMESPACE: "github-actions-runner"
 
 authSecret:
   create: true
-  github_token: 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
+  github_token: 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
